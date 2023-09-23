@@ -16,7 +16,41 @@ jobs:
     - name: Checkout Submodule
       uses: actions/checkout@v3
 
-    # Add steps to make changes in the submodule and push them here
+    - name : Checkout Parent Repository
+      uses: actions/checkout@v3
+      with:
+        repository: Northeastern-Electric-Racing/Argos
+        token: ${{ secrets.PARENT_REPO_PAT }}
+        path: parent-repo
+    - name: Create New Branch in Parent Repository
+      env:
+         PAT: ${{ secrets.PARENT_REPO_PAT }} # Your GitHub Personal Access Token
+         PARENT_REPO_OWNER: Northeastern-Electric-Racing
+         PARENT_REPO_NAME: Argos
+         NEW_BRANCH_NAME: update-submodule
+         BASE_BRANCH: main # Replace with the base branch where you want to create the new branch
+      run: |
+         # Authenticate using your GitHub Personal Access Token
+         git config --global user.email "northeasternelectricracing@gmail.com"
+         git config --global user.name "Northeastern-Electric-Racing-Admin"
+    
+          # Clone the parent repository
+         git clone https://github.com/$PARENT_REPO_OWNER/$PARENT_REPO_NAME.git
+
+         # Navigate into the repository
+         cd $PARENT_REPO_NAME
+
+         # Create a new branch from the desired base branch
+         git checkout -b $NEW_BRANCH_NAME $BASE_BRANCH
+
+         # Push the new branch to the remote repository
+         git push origin $NEW_BRANCH_NAME
+
+         # Add steps to make changes in the submodule and push them here
+         git submodule update --remote
+         git add .
+         git commit -m "Update Submodule"
+         git push origin $NEW_BRANCH_NAME
 
     - name: Create Pull Request in Parent Repository
       env:
@@ -26,7 +60,7 @@ jobs:
         PARENT_REPO_OWNER="Northeastern-Electric-Racing"
         PARENT_REPO_NAME="Argos"
         BASE_BRANCH="main"
-        HEAD_BRANCH="Northeastern-Electric-Racing-Admin:Update-Submodule" # Change this to the branch you want to merge
+        HEAD_BRANCH="Northeastern-Electric-Racing-Admin:update-submodule"
         
         # Create a pull request using the GitHub REST API
         response=$(curl -X POST \
