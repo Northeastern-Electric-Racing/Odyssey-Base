@@ -33,12 +33,12 @@ jobs:
           -H "Authorization: token $PAT" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/$PARENT_REPO_OWNER/$PARENT_REPO_NAME/pulls \
-          -d '{
-            "title": "Update Submodule",
-            "body": "Odyssey Base Has Been Changed, Update the commit hash",
-            "head": "$HEAD_BRANCH",
-            "base": "$BASE_BRANCH"
-          }')
+          -d "{
+            \"title\": \"Update Submodule\",
+            \"body\": \"Odyssey Base Has changed, update the submodule\",
+            \"head\": \"$HEAD_BRANCH\",
+            \"base\": \"$BASE_BRANCH\"
+         }")
 
         # Extract the pull request URL from the response
         echo "Response: $response"
