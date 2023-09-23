@@ -1,6 +1,6 @@
 import { describe, test, expect, afterEach } from 'vitest';
 import prisma from '../src/prisma/prisma-client';
-import { getAllDrivers, upsertDriver } from '../src/services/driver.services';
+import { getAllDrivers, upsertDriver } from '../services/driver.services';
 import { Driver } from '@prisma/client';
 
 /**
