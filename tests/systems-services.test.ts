@@ -1,7 +1,7 @@
 import { describe, test, expect, afterEach } from 'vitest';
 import prisma from '../src/prisma/prisma-client';
 import { System } from '@prisma/client';
-import { getAllSystems, upsertSystem } from '../services/systems.services';
+import { getAllSystems, upsertSystem } from '../src/services/systems.services';
 
 /**
  * Tests for CRUD Service functions

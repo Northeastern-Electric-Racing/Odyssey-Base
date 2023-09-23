@@ -1,5 +1,5 @@
-import prisma from '../src/prisma/prisma-client';
-import { ResponseFunction } from '../src/types/message.types';
+import prisma from '../prisma/prisma-client';
+import { ResponseFunction } from '../types/message.types';
 
 /**
  * CRUD operation to get all systems with ResponseFunction type

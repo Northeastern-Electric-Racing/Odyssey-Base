@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { getAllDataTypes } from '../services/dataTypes.services';
+import { getAllDataTypes } from '../src/services/dataTypes.services';
 import { DataType } from '@prisma/client';
 
 describe('Data Type', () => {
