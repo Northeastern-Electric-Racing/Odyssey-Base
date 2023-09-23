@@ -20,8 +20,8 @@ jobs:
         PAT: ${{ secrets.PARENT_REPO_PAT }}
         PARENT_REPO_OWNER: Northeastern-Electric-Racing
         PARENT_REPO_NAME: Argos
-        NEW_BRANCH_NAME: update-submodules # Replace with your desired branch name
-        BASE_BRANCH: main # Replace with the base branch where you want to create the new branch
+        NEW_BRANCH_NAME: update-submodules 
+        BASE_BRANCH: main
       run: |
         # Authenticate using your GitHub Personal Access Token
         git config --global user.email "northeasternelectricracing@gmail.com"
