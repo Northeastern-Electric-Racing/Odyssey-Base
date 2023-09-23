@@ -39,6 +39,8 @@ jobs:
         # Create a new branch from the desired base branch
         git checkout -b $NEW_BRANCH_NAME $BASE_BRANCH
 
+        echo test
+
         # Push the new branch to the remote repository
         git push origin $NEW_BRANCH_NAME
 
