@@ -26,7 +26,7 @@ jobs:
         PARENT_REPO_OWNER="Northeastern-Electric-Racing"
         PARENT_REPO_NAME="Argos"
         BASE_BRANCH="main"
-        HEAD_BRANCH="feature-branch" # Change this to the branch you want to merge
+        HEAD_BRANCH="Northeastern-Electric-Racing-Admin:Update-Submodule" # Change this to the branch you want to merge
         
         # Create a pull request using the GitHub REST API
         response=$(curl -X POST \
