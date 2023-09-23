@@ -26,6 +26,9 @@ jobs:
         # Authenticate using your GitHub Personal Access Token
         git config --global user.email "northeasternelectricracing@gmail.com"
         git config --global user.name "Northeastern-Electric-Racing-Admin"
+        git config --global credential.helper store
+        git config --global credential.helper 'cache --timeout=3600'
+        echo -n "x-access-token:${{ secrets.PARENT_REPO_PAT }}" > ~/.git-credentials
         
         # Clone the parent repository
         git clone https://github.com/$PARENT_REPO_OWNER/$PARENT_REPO_NAME.git
