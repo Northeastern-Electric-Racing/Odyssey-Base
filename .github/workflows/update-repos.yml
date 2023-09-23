@@ -24,8 +24,8 @@ jobs:
         BASE_BRANCH: main # Replace with the base branch where you want to create the new branch
       run: |
         # Authenticate using your GitHub Personal Access Token
-        git config --global user.email "actions@github.com"
-        git config --global user.name "GitHub Actions"
+        git config --global user.email "northeasternelectricracing@gmail.com"
+        git config --global user.name "Northeastern-Electric-Racing-Admin"
         
         # Clone the parent repository
         git clone https://github.com/$PARENT_REPO_OWNER/$PARENT_REPO_NAME.git
