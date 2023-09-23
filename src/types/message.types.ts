@@ -1,4 +1,4 @@
-import { Topic } from './topic';
+import { Topic } from "./topic";
 
 /**
  * The format of a message sent from the server
@@ -9,9 +9,6 @@ export type ServerMessage = {
   data: ServerData[];
 };
 
-/**
- * The format of the data sent from the server
- */
 type ServerData = {
   name: string;
   value: number;
@@ -28,7 +25,3 @@ export type SubscriptionMessage = {
 
 type SubscriptionArgument = 'subscribe' | 'unsubscribe';
 
-/*
- * The type of a function that responds to a message from the client
- */
-export type ResponseFunction = (data?: JSON) => Promise<string>;
