@@ -1,0 +1,46 @@
+-name: Submodule Change Workflow
+
+on:
+  push:
+    branches:
+      - main # Trigger when changes are pushed to the main branch of the submodule
+   pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout Submodule
+      uses: actions/checkout@v3
+
+    # Add steps to make changes in the submodule and push them here
+
+    - name: Create Pull Request in Parent Repository
+      env:
+        PAT: ${{ secrets.PARENT_REPO_PAT }}
+      run: |
+        # Define the necessary variables
+        PARENT_REPO_OWNER="Northeastern-Electric-Racing"
+        PARENT_REPO_NAME="Argos"
+        BASE_BRANCH="main"
+        HEAD_BRANCH="feature-branch" # Change this to the branch you want to merge
+        
+        # Create a pull request using the GitHub REST API
+        response=$(curl -X POST \
+          -H "Authorization: token $PAT" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$PARENT_REPO_OWNER/$PARENT_REPO_NAME/pulls \
+          -d '{
+            "title": "Update Submodule",
+            "body": "Odyssey Base Has Been Changed, Update the commit hash",
+            "head": "$HEAD_BRANCH",
+            "base": "$BASE_BRANCH"
+          }')
+
+        # Extract the pull request URL from the response
+        pull_request_url=$(echo $response | jq -r .html_url)
+
+        echo "Pull Request URL: $pull_request_url"
