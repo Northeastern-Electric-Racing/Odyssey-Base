@@ -9,7 +9,7 @@ export type ServerMessage = {
   data: ServerData[];
 };
 
-type ServerData = {
+export type ServerData = {
   name: string;
   value: number;
   units: string;
