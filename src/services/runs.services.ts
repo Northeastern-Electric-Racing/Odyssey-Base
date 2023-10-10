@@ -28,7 +28,7 @@ export default class RunService {
       }
     });
     if (!run) {
-      throw NotFoundError('run', id);
+      throw new NotFoundError('run', id);
     }
     return run;
   };

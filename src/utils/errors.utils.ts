@@ -17,6 +17,11 @@ type MissingType = 'location' | 'run' | 'dataType' | 'data';
 /**
  * Custom Error message based on given missing data and type of data
  */
-export const NotFoundError = (type: MissingType, id?: string | number) => {
-  throw new Error(`${type} with id ${id} not found`);
-};
+export class NotFoundError extends Error {
+  public status: number;
+
+  constructor(type: MissingType, id?: string | number) {
+    super(`${type} with id ${id} not found`);
+    this.status = 404;
+  }
+}
