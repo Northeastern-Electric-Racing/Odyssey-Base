@@ -6,6 +6,7 @@ import DataTypeService from '../src/services/dataTypes.services';
 import NodeService from '../src/services/nodes.services';
 import RunService from '../src/services/runs.services';
 import { Data } from '@prisma/client';
+import { Unit } from '../src/types/unit';
 
 /**
  * Unit Tests for Data
@@ -65,7 +66,7 @@ describe('Data', () => {
     const serverData: ServerData = {
       name: 'test',
       value: 0,
-      units: 'lbs'
+      units: Unit.AMPERAGE
     };
 
     await NodeService.upsertNode('test');
@@ -88,7 +89,7 @@ describe('Data', () => {
     const serverData: ServerData = {
       name: 'test',
       value: 0,
-      units: 'lbs'
+      units: Unit.AMPERAGE
     };
     //throws w no data
     await expect(() => DataService.addData(serverData, 1, 1, 1)).rejects.toThrowError('dataType with id test not found');
