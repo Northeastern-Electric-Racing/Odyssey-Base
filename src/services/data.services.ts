@@ -20,7 +20,7 @@ export default class DataService {
     });
 
     if (!dataType) {
-      throw NotFoundError('dataType', dataTypeName);
+      throw new NotFoundError('dataType', dataTypeName);
     }
 
     const queriedData = await prisma.data.findMany({
@@ -48,7 +48,7 @@ export default class DataService {
     });
 
     if (!dataType) {
-      throw NotFoundError('dataType', serverData.name);
+      throw new NotFoundError('dataType', serverData.name);
     }
 
     const run = await prisma.run.findUnique({
@@ -58,7 +58,7 @@ export default class DataService {
     });
 
     if (!run) {
-      throw NotFoundError('run', runId);
+      throw new NotFoundError('run', runId);
     }
 
     return await prisma.data.create({
