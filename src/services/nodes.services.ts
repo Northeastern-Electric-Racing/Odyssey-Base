@@ -8,7 +8,11 @@ export default class NodeService {
    * @returns Promise<string> contianing all the nodes in the db
    */
   static getAllNodes: ResponseFunction<Node[]> = async () => {
-    const data = await prisma.node.findMany();
+    const data = await prisma.node.findMany({
+      include: {
+        dataTypes: true
+      }
+    });
     return data;
   };
 
