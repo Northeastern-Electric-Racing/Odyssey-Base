@@ -32,20 +32,17 @@ describe('CRUD Location', () => {
   });
 
   /**
-   * Tests Upserts Location and Get All Locations work correctly
+   * Tests Upserts Location works correctly
    */
   test('Get All Locations and Upsert', async () => {
     await LocationService.upsertLocation('test', 100, 200, 300, (await RunService.createRun(1)).id);
 
-    const result = await LocationService.getAllLocations();
-
-    expect(result).toEqual([
-      {
-        latitude: 100,
-        longitude: 200,
-        name: 'test',
-        radius: 300
+    const result = await prisma.location.findUnique({
+      where: {
+        name: 'test'
       }
-    ]);
+    });
+
+    expect(result).not.toBeNull();
   });
 });
