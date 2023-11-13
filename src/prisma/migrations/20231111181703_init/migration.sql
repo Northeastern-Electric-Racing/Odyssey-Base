@@ -4,7 +4,7 @@ CREATE TABLE "Run" (
     "locationName" TEXT,
     "driverName" TEXT,
     "systemName" TEXT,
-    "time" INTEGER NOT NULL,
+    "time" BIGINT NOT NULL,
     CONSTRAINT "Run_locationName_fkey" FOREIGN KEY ("locationName") REFERENCES "Location" ("name") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Run_driverName_fkey" FOREIGN KEY ("driverName") REFERENCES "Driver" ("username") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Run_systemName_fkey" FOREIGN KEY ("systemName") REFERENCES "System" ("name") ON DELETE SET NULL ON UPDATE CASCADE
@@ -33,7 +33,7 @@ CREATE TABLE "Data" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "value" INTEGER NOT NULL,
     "dataTypeName" TEXT NOT NULL,
-    "time" INTEGER NOT NULL,
+    "time" BIGINT NOT NULL,
     "runId" INTEGER NOT NULL,
     CONSTRAINT "Data_dataTypeName_fkey" FOREIGN KEY ("dataTypeName") REFERENCES "DataType" ("name") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Data_runId_fkey" FOREIGN KEY ("runId") REFERENCES "Run" ("id") ON DELETE RESTRICT ON UPDATE CASCADE

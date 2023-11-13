@@ -29,18 +29,19 @@ export default class DataService {
       }
     });
 
-    return queriedData;
+    return queriedData.map((data) => {
+      return { ...data, time: data.time.toString() };
+    });
   };
 
   /**
    * Adds data to the database
-   * @param serverData The data to add
+   * @param serverData Container for the data to add, includes name, unit, and value
    * @param unixTime the timestamp of the data
-   * @param value the value of the data
    * @param runId the id of the run associated with the data
    * @returns The created data type
    */
-  static addData = async (serverData: ServerData, unixTime: number, value: number, runId: number): Promise<Data> => {
+  static addData = async (serverData: ServerData, unixTime: number, runId: number): Promise<Data> => {
     const dataType = await prisma.dataType.findUnique({
       where: {
         name: serverData.name
@@ -62,7 +63,12 @@ export default class DataService {
     }
 
     return await prisma.data.create({
-      data: { dataType: { connect: { name: dataType.name } }, time: unixTime, run: { connect: { id: run.id } }, value }
+      data: {
+        dataType: { connect: { name: dataType.name } },
+        time: unixTime,
+        run: { connect: { id: run.id } },
+        value: serverData.value
+      }
     });
   };
 }
