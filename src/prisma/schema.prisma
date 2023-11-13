@@ -17,7 +17,7 @@ model Run {
     systemName   String?
     system       System?   @relation(fields: [systemName], references: [name])
     data         Data[]
-    time         Int
+    time         BigInt
 }
 
 model Location {
@@ -43,7 +43,7 @@ model Data {
     value        Int
     dataTypeName String
     dataType     DataType @relation(fields: [dataTypeName], references: [name])
-    time         Int
+    time         BigInt
     runId        Int
     run          Run      @relation(fields: [runId], references: [id])
 }

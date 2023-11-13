@@ -73,12 +73,12 @@ describe('Data', () => {
     await DataTypeService.upsertDataType('test', 'joe mama', 'test');
     const run = await RunService.createRun(1);
 
-    const result = await DataService.addData(serverData, 1, 1, run.id);
+    const result = await DataService.addData(serverData, 1, run.id);
     const expected: Data = {
       id: result.id,
       dataTypeName: 'test',
       value: 1,
-      time: 1,
+      time: BigInt(1),
       runId: run.id
     };
 
@@ -92,6 +92,6 @@ describe('Data', () => {
       units: Unit.AMPERAGE
     };
     //throws w no data
-    await expect(() => DataService.addData(serverData, 1, 1, 1)).rejects.toThrowError('dataType with id test not found');
+    await expect(() => DataService.addData(serverData, 1, 1)).rejects.toThrowError('dataType with id test not found');
   });
 });
