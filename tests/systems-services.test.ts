@@ -33,9 +33,13 @@ describe('CRUD Systems', () => {
    * testing creating system if doesn't exist
    */
   test('Upsert System Creates', async () => {
-    const expected = [{ name: 'test' }];
+    const expected = { name: 'test' };
     await SystemService.upsertSystem('test', (await RunService.createRun(1)).id);
-    const result = await SystemService.getAllSystems();
+    const result = await prisma.system.findUnique({
+      where: {
+        name: 'test'
+      }
+    });
 
     // Use toEqual to compare parsedResult with the expected array
     expect(result).toEqual(expected);
