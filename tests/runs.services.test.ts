@@ -45,7 +45,7 @@ describe('CRUD Run', () => {
     expect(result).toEqual({
       id: createdRun.id,
       locationName: null,
-      time: 1,
+      time: BigInt(1),
       driverName: null,
       systemName: null
     });

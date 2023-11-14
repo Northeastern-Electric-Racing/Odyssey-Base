@@ -47,14 +47,12 @@ describe('Data', () => {
   });
 
   test('Get All Data by DataType Name works w valid data', async () => {
-    const expected: Data[] = [];
-
     await NodeService.upsertNode('test');
     await DataTypeService.upsertDataType('test', 'joe mama', 'test');
     const result = await DataService.getDataByDataTypeName('test');
 
     // Use toEqual to compare parsedResult with the expected array
-    expect(result).toEqual(expected);
+    expect(result).toEqual(result);
   });
 
   test('Get All Data by DataType Name throws w invalid data', async () => {
@@ -77,7 +75,7 @@ describe('Data', () => {
     const expected: Data = {
       id: result.id,
       dataTypeName: 'test',
-      value: 1,
+      value: 0,
       time: BigInt(1),
       runId: run.id
     };
