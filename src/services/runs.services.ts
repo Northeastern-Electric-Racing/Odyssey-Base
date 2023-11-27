@@ -1,6 +1,4 @@
-import { Run } from '@prisma/client';
 import prisma from '../prisma/prisma-client';
-import { ResponseFunction } from '../utils/response-function';
 import { NotFoundError } from '../utils/errors.utils';
 
 /**
@@ -12,8 +10,12 @@ export default class RunService {
    * CRUD operation to get all runs
    * @returns Promise<Run[]>  all the runs
    */
-  static getAllRuns: ResponseFunction<Run[]> = async () => {
-    return await prisma.run.findMany();
+  static getAllRuns = async () => {
+    const runs = await prisma.run.findMany();
+    console.log(runs);
+    return runs.map((run) => {
+      return { ...run, time: run.time.toString() };
+    });
   };
 
   /**
@@ -21,16 +23,18 @@ export default class RunService {
    * @param id id of run
    * @returns Promise<Run>
    */
-  static getRunById = async (id: number): Promise<Run> => {
+  static getRunById = async (id: number) => {
     const run = await prisma.run.findUnique({
       where: {
         id
       }
     });
+
     if (!run) {
       throw new NotFoundError('run', id);
     }
-    return run;
+
+    return { ...run, time: run.time.toString() };
   };
 
   /**
