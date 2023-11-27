@@ -1,12 +1,21 @@
 import DataService from '../services/data.services';
 import DataTypeService from '../services/dataTypes.services';
+import DriverService from '../services/driver.services';
+import LocationService from '../services/locations.services';
 import NodeService from '../services/nodes.services';
 import RunService from '../services/runs.services';
+import SystemService from '../services/systems.services';
 import { Unit } from '../types/unit';
 import prisma from './prisma-client';
 
 const performSeed = async () => {
   const createdRun = await RunService.createRun(Date.now());
+
+  await SystemService.upsertSystem('Data And Controls', createdRun.id);
+
+  await DriverService.upsertDriver('Fergus', createdRun.id);
+
+  await LocationService.upsertLocation('Gainsborough', 1, 1, 1, createdRun.id);
 
   await NodeService.upsertNode('BMS');
   await NodeService.upsertNode('MPU');
