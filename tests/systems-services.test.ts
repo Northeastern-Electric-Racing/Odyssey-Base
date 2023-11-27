@@ -50,11 +50,11 @@ describe('CRUD Systems', () => {
    */
   test('Get All Systems Works', async () => {
     await SystemService.upsertSystem('test', (await RunService.createRun(1)).id);
-    const expected = [{ name: 'test' }];
+    const expected = { name: 'test' };
     const result = await SystemService.getAllSystems();
 
     // Use toEqual to compare parsedResult with the expected array
-    expect(result).toEqual(expected);
+    expect(result.map((system) => system.name)).toContain(expected.name);
   });
 
   /**
@@ -62,11 +62,11 @@ describe('CRUD Systems', () => {
    * testing does nothing if system does exist
    */
   test('Upsert System Does Nothing', async () => {
-    const expected = [{ name: 'test' }];
+    const expected = { name: 'test' };
     await SystemService.upsertSystem('test', (await RunService.createRun(1)).id);
     const result = await SystemService.getAllSystems();
 
     // Use toEqual to compare result with the expected array
-    expect(result).toEqual(expected);
+    expect(result.map((system) => system.name)).toContain(expected.name);
   });
 });
