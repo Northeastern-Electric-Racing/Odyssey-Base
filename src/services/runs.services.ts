@@ -12,7 +12,6 @@ export default class RunService {
    */
   static getAllRuns = async () => {
     const runs = await prisma.run.findMany();
-    console.log(runs);
     return runs.map((run) => {
       return { ...run, time: run.time.toString() };
     });
