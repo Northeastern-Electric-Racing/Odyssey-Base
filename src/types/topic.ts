@@ -6,5 +6,6 @@ export enum Topic {
   TPU = 'tpu',
   BMS = 'bms',
   MOTOR_CONTROLLER = 'motor-controller',
-  NERO = 'nero'
+  NERO = 'nero',
+  ALL = '#'
 }
