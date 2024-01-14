@@ -41,15 +41,15 @@ export default class DataService {
    * @param runId the id of the run associated with the data
    * @returns The created data type
    */
-  static addData = async (serverData: ServerData, unixTime: number, runId: number): Promise<Data> => {
+  static addData = async (serverData: ServerData, unixTime: number, dataTypeName: string, runId: number): Promise<Data> => {
     const dataType = await prisma.dataType.findUnique({
       where: {
-        name: serverData.name
+        name: dataTypeName
       }
     });
 
     if (!dataType) {
-      throw new NotFoundError('dataType', serverData.name);
+      throw new NotFoundError('dataType', dataTypeName);
     }
 
     const run = await prisma.run.findUnique({
@@ -67,7 +67,7 @@ export default class DataService {
         dataType: { connect: { name: dataType.name } },
         time: unixTime,
         run: { connect: { id: run.id } },
-        value: serverData.value
+        value: serverData.value as number
       }
     });
   };
