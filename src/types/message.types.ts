@@ -2,19 +2,19 @@ import { Topic } from "./topic";
 import { Unit } from "./unit";
 
 /**
- * The format of a message sent from the server
+ * The format of the data sent from the server
  */
-export type ServerMessage = {
-  unix_time: number;
-  node: string;
-  data: ServerData[];
+export type ServerData = {
+  value: number | string;
+  unit: Unit;
 };
 
-export type ServerData = {
-  name: string;
-  value: number;
-  units: Unit;
-};
+export type ServerMessage = {
+  node: string;
+  dataType: string;
+  unix_time: number;
+  data: ServerData;
+}
 
 /**
  * The format of the message sent to subscribe or unsubscribe from a topic
