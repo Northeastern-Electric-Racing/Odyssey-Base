@@ -24,82 +24,82 @@ const performSeed = async () => {
   await DataService.addData(
     {
       value: 20,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now(),
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 21,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 1000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 18,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 2000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 17,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 3000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 25,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 4000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 30,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 5000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 38,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 6000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 32,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 7000,
+    'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
     {
       value: 26,
-      name: 'Pack Temp',
-      units: Unit.CELSIUS
+      unit: Unit.CELSIUS
     },
     Date.now() + 8000,
+    'Pack Temp',
     createdRun.id
   );
 
