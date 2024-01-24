@@ -1,7 +1,6 @@
 import { describe, test, expect, afterEach, afterAll } from 'vitest';
 import DataService from '../src/services/data.services';
 import prisma from '../src/prisma/prisma-client';
-import { ServerData } from '../src/types/message.types';
 import DataTypeService from '../src/services/dataTypes.services';
 import NodeService from '../src/services/nodes.services';
 import RunService from '../src/services/runs.services';
@@ -61,7 +60,7 @@ describe('Data', () => {
   });
 
   test('Add Data Succeeds', async () => {
-    const serverData: ServerData = {
+    const serverData = {
       value: 0,
       unit: Unit.AMPERAGE
     };
@@ -83,7 +82,7 @@ describe('Data', () => {
   });
 
   test('addData throws error when no dataTypeName', async () => {
-    const serverData: ServerData = {
+    const serverData = {
       value: 0,
       unit: Unit.AMPERAGE
     };
