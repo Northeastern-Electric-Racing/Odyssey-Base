@@ -1,7 +1,7 @@
 import prisma from '../prisma/prisma-client';
+import { ClientData } from '../types/message.types';
 import { NotFoundError } from '../utils/errors.utils';
 import { Data } from '@prisma/client';
-import { ServerData } from '../types/message.types';
 
 /**
  * Service class for handling data
@@ -41,7 +41,7 @@ export default class DataService {
    * @param runId the id of the run associated with the data
    * @returns The created data type
    */
-  static addData = async (serverData: ServerData, unixTime: number, dataTypeName: string, runId: number): Promise<Data> => {
+  static addData = async (serverData: ClientData, unixTime: number, dataTypeName: string, runId: number): Promise<Data> => {
     const dataType = await prisma.dataType.findUnique({
       where: {
         name: dataTypeName

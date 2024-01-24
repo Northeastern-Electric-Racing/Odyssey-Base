@@ -3,7 +3,7 @@ import { Topic } from './topic';
 /**
  * The format of the data sent from the server
  */
-type ClientData = {
+export type ClientData = {
   value: string | number;
   unit: string;
 };
