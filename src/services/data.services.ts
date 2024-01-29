@@ -1,5 +1,5 @@
+import { serverdata } from '../generated/serverdata/v1/serverdata';
 import prisma from '../prisma/prisma-client';
-import { ClientData } from '../types/message.types';
 import { NotFoundError } from '../utils/errors.utils';
 import { Data } from '@prisma/client';
 
@@ -26,6 +26,9 @@ export default class DataService {
     const queriedData = await prisma.data.findMany({
       where: {
         dataTypeName
+      },
+      include: {
+        value: true
       }
     });
 
@@ -38,10 +41,11 @@ export default class DataService {
    * Adds data to the database
    * @param serverData Container for the data to add, includes name, unit, and value
    * @param unixTime the timestamp of the data
+   * @param dataTypeName the name of the dataType associated with the data
    * @param runId the id of the run associated with the data
    * @returns The created data type
    */
-  static addData = async (serverData: ClientData, unixTime: number, dataTypeName: string, runId: number): Promise<Data> => {
+  static addData = async (serverData: serverdata.v1.ServerData, unixTime: number, dataTypeName: string, runId: number): Promise<Data> => {
     const dataType = await prisma.dataType.findUnique({
       where: {
         name: dataTypeName
@@ -62,13 +66,25 @@ export default class DataService {
       throw new NotFoundError('run', runId);
     }
 
-    return await prisma.data.create({
+    const createdData = await prisma.data.create({
       data: {
         dataType: { connect: { name: dataType.name } },
         time: unixTime,
         run: { connect: { id: run.id } },
-        value: serverData.value as number
+        value: {
+          createMany: {
+            data: serverData.value.map((value) => ({
+              value: value.value as number,
+              unit: value.unit
+          }))
+        }
       }
-    });
+    }, 
+    include: {
+      value: true //include the value in the response);
+    }
+  });
+
+  return createdData;
   };
 }
