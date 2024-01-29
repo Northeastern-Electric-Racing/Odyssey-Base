@@ -40,7 +40,7 @@ model System {
 
 model Data {
     id           Int      @id @unique @default(autoincrement())
-    value        Int
+    value        DataValue[]
     dataTypeName String
     dataType     DataType @relation(fields: [dataTypeName], references: [name])
     time         BigInt
@@ -59,4 +59,13 @@ model DataType {
 model Node {
     name      String     @id @unique
     dataTypes DataType[]
+}
+
+// DataValue has an id a relation to its data and a value of type float
+
+model DataValue {
+    id      Int    @id @unique @default(autoincrement())
+    dataId  Int
+    data    Data   @relation(fields: [dataId], references: [id])
+    value   Float
 }
