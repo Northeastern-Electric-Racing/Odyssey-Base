@@ -61,10 +61,8 @@ model Node {
     dataTypes DataType[]
 }
 
-// DataValue has an id a relation to its data and a value of type float
-
 model DataValue {
-    id      Int    @id @unique @default(autoincrement())
+    id      String    @id @unique @default(uuid())
     dataId  Int
     data    Data   @relation(fields: [dataId], references: [id])
     value   Float
