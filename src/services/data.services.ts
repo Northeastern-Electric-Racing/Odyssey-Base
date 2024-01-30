@@ -71,20 +71,19 @@ export default class DataService {
         dataType: { connect: { name: dataType.name } },
         time: unixTime,
         run: { connect: { id: run.id } },
-        value: {
-          createMany: {
-            data: serverData.value.map((value) => ({
-              value: value.value as number,
-              unit: value.unit
-          }))
-        }
       }
-    }, 
-    include: {
-      value: true //include the value in the response);
-    }
+    });
+
+  const dataValuePromises = JSON.parse(serverData.value).map(async (value: { value: string; }) => {
+    return prisma.dataValue.create({
+      data: {
+        value: value.value as string,
+        dataId: createdData.id
+      }
+    });
   });
 
-  return createdData;
-  };
-}
+  const createdDataValues = await Promise.all(dataValuePromises);
+  return {...createdData, value: createdDataValues,};
+
+}};
