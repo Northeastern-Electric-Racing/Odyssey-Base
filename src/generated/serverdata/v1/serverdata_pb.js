@@ -27,7 +27,7 @@ goog.exportSymbol('proto.serverdata.v1.ServerData', null, global);
  * @constructor
  */
 proto.serverdata.v1.ServerData = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.serverdata.v1.ServerData.repeatedFields_, null);
 };
 goog.inherits(proto.serverdata.v1.ServerData, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -37,6 +37,13 @@ if (goog.DEBUG && !COMPILED) {
    */
   proto.serverdata.v1.ServerData.displayName = 'proto.serverdata.v1.ServerData';
 }
+
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.serverdata.v1.ServerData.repeatedFields_ = [1];
 
 
 
@@ -69,7 +76,7 @@ proto.serverdata.v1.ServerData.prototype.toObject = function(opt_includeInstance
  */
 proto.serverdata.v1.ServerData.toObject = function(includeInstance, msg) {
   var f, obj = {
-    value: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    valuesList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     unit: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -109,7 +116,7 @@ proto.serverdata.v1.ServerData.deserializeBinaryFromReader = function(msg, reade
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setValue(value);
+      msg.addValues(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -144,9 +151,9 @@ proto.serverdata.v1.ServerData.prototype.serializeBinary = function() {
  */
 proto.serverdata.v1.ServerData.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValue();
+  f = message.getValuesList();
   if (f.length > 0) {
-    writer.writeString(
+    writer.writeRepeatedString(
       1,
       f
     );
@@ -162,20 +169,39 @@ proto.serverdata.v1.ServerData.serializeBinaryToWriter = function(message, write
 
 
 /**
- * optional string value = 1;
- * @return {string}
+ * repeated string values = 1;
+ * @return {!Array<string>}
  */
-proto.serverdata.v1.ServerData.prototype.getValue = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+proto.serverdata.v1.ServerData.prototype.getValuesList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
+};
+
+
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.serverdata.v1.ServerData} returns this
+ */
+proto.serverdata.v1.ServerData.prototype.setValuesList = function(value) {
+  return jspb.Message.setField(this, 1, value || []);
 };
 
 
 /**
  * @param {string} value
+ * @param {number=} opt_index
  * @return {!proto.serverdata.v1.ServerData} returns this
  */
-proto.serverdata.v1.ServerData.prototype.setValue = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+proto.serverdata.v1.ServerData.prototype.addValues = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.serverdata.v1.ServerData} returns this
+ */
+proto.serverdata.v1.ServerData.prototype.clearValuesList = function() {
+  return this.setValuesList([]);
 };
 
 

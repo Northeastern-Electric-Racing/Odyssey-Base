@@ -13,7 +13,7 @@ describe('CRUD Driver', () => {
   afterAll(async () => {
     await prisma.run.deleteMany({
       where: {
-        time: 1
+        driverName: 'test'
       }
     });
   });

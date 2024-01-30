@@ -28,7 +28,7 @@ export default class DataService {
         dataTypeName
       },
       include: {
-        value: true
+        values: true
       }
     });
 
@@ -45,7 +45,12 @@ export default class DataService {
    * @param runId the id of the run associated with the data
    * @returns The created data type
    */
-  static addData = async (serverData: serverdata.v1.ServerData, unixTime: number, dataTypeName: string, runId: number): Promise<Data> => {
+  static addData = async (
+    serverData: serverdata.v1.ServerData,
+    unixTime: number,
+    dataTypeName: string,
+    runId: number
+  ): Promise<Data> => {
     const dataType = await prisma.dataType.findUnique({
       where: {
         name: dataTypeName
@@ -70,20 +75,21 @@ export default class DataService {
       data: {
         dataType: { connect: { name: dataType.name } },
         time: unixTime,
-        run: { connect: { id: run.id } },
+        run: { connect: { id: run.id } }
       }
     });
 
-  const dataValuePromises = JSON.parse(serverData.value).map(async (value: { value: string; }) => {
-    return prisma.dataValue.create({
-      data: {
-        value: value.value as string,
-        dataId: createdData.id
-      }
+    const dataValuePromises = serverData.values.map((value) => {
+      return prisma.dataValue.create({
+        data: {
+          value: parseFloat(value),
+          data: { connect: { id: createdData.id } }
+        }
+      });
     });
-  });
 
-  const createdDataValues = await Promise.all(dataValuePromises);
-  return {...createdData, value: createdDataValues,};
+    await Promise.all(dataValuePromises);
 
-}};
+    return createdData;
+  };
+}

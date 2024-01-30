@@ -8,24 +8,24 @@ export namespace serverdata.v1 {
     export class ServerData extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            value?: string;
+            values?: string[];
             unit?: string;
         }) {
             super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
-                if ("value" in data && data.value != undefined) {
-                    this.value = data.value;
+                if ("values" in data && data.values != undefined) {
+                    this.values = data.values;
                 }
                 if ("unit" in data && data.unit != undefined) {
                     this.unit = data.unit;
                 }
             }
         }
-        get value() {
-            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        get values() {
+            return pb_1.Message.getFieldWithDefault(this, 1, []) as string[];
         }
-        set value(value: string) {
+        set values(value: string[]) {
             pb_1.Message.setField(this, 1, value);
         }
         get unit() {
@@ -35,12 +35,12 @@ export namespace serverdata.v1 {
             pb_1.Message.setField(this, 2, value);
         }
         static fromObject(data: {
-            value?: string;
+            values?: string[];
             unit?: string;
         }): ServerData {
             const message = new ServerData({});
-            if (data.value != null) {
-                message.value = data.value;
+            if (data.values != null) {
+                message.values = data.values;
             }
             if (data.unit != null) {
                 message.unit = data.unit;
@@ -49,11 +49,11 @@ export namespace serverdata.v1 {
         }
         toObject() {
             const data: {
-                value?: string;
+                values?: string[];
                 unit?: string;
             } = {};
-            if (this.value != null) {
-                data.value = this.value;
+            if (this.values != null) {
+                data.values = this.values;
             }
             if (this.unit != null) {
                 data.unit = this.unit;
@@ -64,8 +64,8 @@ export namespace serverdata.v1 {
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
             const writer = w || new pb_1.BinaryWriter();
-            if (this.value.length)
-                writer.writeString(1, this.value);
+            if (this.values.length)
+                writer.writeRepeatedString(1, this.values);
             if (this.unit.length)
                 writer.writeString(2, this.unit);
             if (!w)
@@ -78,7 +78,7 @@ export namespace serverdata.v1 {
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        message.value = reader.readString();
+                        pb_1.Message.addToRepeatedField(message, 1, reader.readString());
                         break;
                     case 2:
                         message.unit = reader.readString();
