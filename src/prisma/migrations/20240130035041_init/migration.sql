@@ -31,7 +31,6 @@ CREATE TABLE "System" (
 -- CreateTable
 CREATE TABLE "Data" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "value" INTEGER NOT NULL,
     "dataTypeName" TEXT NOT NULL,
     "time" BIGINT NOT NULL,
     "runId" INTEGER NOT NULL,
@@ -50,6 +49,14 @@ CREATE TABLE "DataType" (
 -- CreateTable
 CREATE TABLE "Node" (
     "name" TEXT NOT NULL PRIMARY KEY
+);
+
+-- CreateTable
+CREATE TABLE "DataValue" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "dataId" INTEGER NOT NULL,
+    "value" REAL NOT NULL,
+    CONSTRAINT "DataValue_dataId_fkey" FOREIGN KEY ("dataId") REFERENCES "Data" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -72,3 +79,6 @@ CREATE UNIQUE INDEX "DataType_name_key" ON "DataType"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Node_name_key" ON "Node"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DataValue_id_key" ON "DataValue"("id");

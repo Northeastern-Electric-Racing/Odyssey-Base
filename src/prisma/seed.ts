@@ -1,3 +1,4 @@
+import { serverdata } from '../generated/serverdata/v1/serverdata';
 import DataService from '../services/data.services';
 import DataTypeService from '../services/dataTypes.services';
 import DriverService from '../services/driver.services';
@@ -22,82 +23,82 @@ const performSeed = async () => {
 
   await DataTypeService.upsertDataType('Pack Temp', 'C', 'BMS');
   await DataService.addData(
-    {
-      value: 20,
+    new serverdata.v1.ServerData({
+      values: ['20'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now(),
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 21,
+    new serverdata.v1.ServerData({
+      values: ['21'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 1000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 18,
+    new serverdata.v1.ServerData({
+      values: ['22'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 2000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 17,
+    new serverdata.v1.ServerData({
+      values: ['17'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 3000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 25,
+    new serverdata.v1.ServerData({
+      values: ['25'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 4000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 30,
+    new serverdata.v1.ServerData({
+      values: ['30'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 5000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 38,
+    new serverdata.v1.ServerData({
+      values: ['38'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 6000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 32,
+    new serverdata.v1.ServerData({
+      values: ['32'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 7000,
     'Pack Temp',
     createdRun.id
   );
   await DataService.addData(
-    {
-      value: 26,
+    new serverdata.v1.ServerData({
+      values: ['26'],
       unit: Unit.CELSIUS
-    },
+    }),
     Date.now() + 8000,
     'Pack Temp',
     createdRun.id

@@ -39,13 +39,13 @@ model System {
 }
 
 model Data {
-    id           Int      @id @unique @default(autoincrement())
-    value        DataValue[]
+    id           Int         @id @unique @default(autoincrement())
+    values       DataValue[]
     dataTypeName String
-    dataType     DataType @relation(fields: [dataTypeName], references: [name])
+    dataType     DataType    @relation(fields: [dataTypeName], references: [name])
     time         BigInt
     runId        Int
-    run          Run      @relation(fields: [runId], references: [id])
+    run          Run         @relation(fields: [runId], references: [id])
 }
 
 model DataType {
@@ -62,8 +62,8 @@ model Node {
 }
 
 model DataValue {
-    id      String    @id @unique @default(uuid())
-    dataId  Int
-    data    Data   @relation(fields: [dataId], references: [id])
-    value   Float
+    id     String @id @unique @default(uuid())
+    dataId Int
+    data   Data   @relation(fields: [dataId], references: [id])
+    value  Float
 }

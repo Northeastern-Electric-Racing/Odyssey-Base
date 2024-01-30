@@ -13,7 +13,7 @@ describe('CRUD Location', () => {
   afterAll(async () => {
     await prisma.run.deleteMany({
       where: {
-        time: 1
+        locationName: 'test'
       }
     });
   });

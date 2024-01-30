@@ -13,7 +13,7 @@ describe('CRUD Systems', () => {
   afterAll(async () => {
     await prisma.run.deleteMany({
       where: {
-        time: 1
+        systemName: 'test'
       }
     });
   });
