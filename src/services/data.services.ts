@@ -1,7 +1,7 @@
 import { serverdata } from '../generated/serverdata/v1/serverdata';
 import prisma from '../prisma/prisma-client';
 import { NotFoundError } from '../utils/errors.utils';
-import { Data } from '@prisma/client';
+import { data } from '@prisma/client';
 
 /**
  * Service class for handling data
@@ -26,9 +26,6 @@ export default class DataService {
     const queriedData = await prisma.data.findMany({
       where: {
         dataTypeName
-      },
-      include: {
-        values: true
       }
     });
 
@@ -50,7 +47,7 @@ export default class DataService {
     unixTime: number,
     dataTypeName: string,
     runId: number
-  ): Promise<Data> => {
+  ): Promise<data> => {
     const dataType = await prisma.dataType.findUnique({
       where: {
         name: dataTypeName
@@ -74,21 +71,11 @@ export default class DataService {
     const createdData = await prisma.data.create({
       data: {
         dataType: { connect: { name: dataType.name } },
-        time: unixTime,
-        run: { connect: { id: run.id } }
+        time: new Date(unixTime),
+        run: { connect: { id: run.id } },
+        values: serverData.values.map(parseFloat)
       }
     });
-
-    const dataValuePromises = serverData.values.map((value) => {
-      return prisma.dataValue.create({
-        data: {
-          value: parseFloat(value),
-          data: { connect: { id: createdData.id } }
-        }
-      });
-    });
-
-    await Promise.all(dataValuePromises);
 
     return createdData;
   };

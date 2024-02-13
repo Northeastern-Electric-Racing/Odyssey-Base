@@ -10,7 +10,15 @@ import { Unit } from '../types/unit';
 import prisma from './prisma-client';
 
 const performSeed = async () => {
-  const createdRun = await RunService.createRun(Date.now());
+  await prisma.data.deleteMany({});
+  await prisma.driver.deleteMany({});
+  await prisma.location.deleteMany({});
+  await prisma.system.deleteMany({});
+  await prisma.dataType.deleteMany({});
+  await prisma.node.deleteMany({});
+  await prisma.run.deleteMany({});
+
+  const createdRun = await RunService.createRun(Date.now(), 1);
 
   await SystemService.upsertSystem('Data And Controls', createdRun.id);
 

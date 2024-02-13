@@ -4,7 +4,7 @@ import prisma from '../src/prisma/prisma-client';
 import DataTypeService from '../src/services/dataTypes.services';
 import NodeService from '../src/services/nodes.services';
 import RunService from '../src/services/runs.services';
-import { Data } from '@prisma/client';
+import { data } from '@prisma/client';
 import { Unit } from '../src/types/unit';
 import { serverdata } from '../src/generated/serverdata/v1/serverdata';
 
@@ -40,7 +40,7 @@ describe('Data', () => {
     try {
       await prisma.run.deleteMany({
         where: {
-          time: BigInt(1)
+          time: new Date(Date.now())
         }
       });
     } catch (error) {}
@@ -65,32 +65,33 @@ describe('Data', () => {
     await DataTypeService.upsertDataType('test', 'joe mama', 'test');
     const run = await RunService.createRun(1);
 
-    const result = await DataService.addData(serverData, 1, 'test', run.id);
-    const expected: Data = {
+    const result = await DataService.addData(serverData, Date.UTC(1970), 'test', run.id);
+    const expected: data = {
       id: result.id,
       dataTypeName: 'test',
-      time: BigInt(1),
-      runId: run.id
+      time: result.time,
+      runId: run.id,
+      values: [0],
     };
 
     expect(result).toEqual(expected);
   });
 
   //TODO Fix these tests, for some reason theyre not throwing when they absolutely should be
-  // test('Get All Data by DataType Name throws w invalid data', async () => {
-  //   //throws w no data
-  //   await expect(() => DataService.getDataByDataTypeName('test')).rejects.toThrowError('dataType with id test not found');
-  // });
+  test('Get All Data by DataType Name throws w invalid data', async () => {
+    //throws w no data
+    await expect(() => DataService.getDataByDataTypeName('test')).rejects.toThrowError('dataType with id test not found');
+  });
 
-  // test('addData throws error when no dataTypeName', async () => {
-  //   const serverData = new serverdata.v1.ServerData({
-  //     values: ["0"],
-  //     unit: Unit.AMPERAGE
-  //   });
+  test('addData throws error when no dataTypeName', async () => {
+    const serverData = new serverdata.v1.ServerData({
+      values: ["0"],
+      unit: Unit.AMPERAGE
+    });
 
-  //   //throws w no data
-  //   await expect(() => DataService.addData(serverData, 1, 'test', 1)).rejects.toThrowError(
-  //     'dataType with id test not found'
-  //   );
-  // });
+    //throws w no data
+    await expect(() => DataService.addData(serverData, 1, 'test', 1)).rejects.toThrowError(
+      'dataType with id test not found'
+    );
+  });
 });
