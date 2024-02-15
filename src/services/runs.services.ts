@@ -40,10 +40,11 @@ export default class RunService {
    * Creates a new run in the database
    * @returns Promise<Run>
    */
-  static createRun = async (timestamp: number) => {
+  static createRun = async (timestamp: number, id?: number) => {
     const run = await prisma.run.create({
       data: {
-        time: timestamp
+        id,
+        time: new Date(timestamp)
       }
     });
     return run;

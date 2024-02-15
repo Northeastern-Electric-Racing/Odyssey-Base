@@ -1,4 +1,4 @@
-import { Driver } from '@prisma/client';
+import { driver } from '@prisma/client';
 import prisma from '../prisma/prisma-client';
 import { ResponseFunction } from '../utils/response-function';
 import RunService from './runs.services';
@@ -11,7 +11,7 @@ export default class DriverService {
    * CRUD operation to get all dataTypes
    * @returns string containing all the dataTypes
    */
-  static getAllDrivers: ResponseFunction<Driver[]> = async () => {
+  static getAllDrivers: ResponseFunction<driver[]> = async () => {
     const data = await prisma.driver.findMany();
     return data;
   };
@@ -22,7 +22,7 @@ export default class DriverService {
    * @param runId id of the run that the driver is currently associated with
    * @returns the created driver
    */
-  static upsertDriver = async (driverName: string, runId: number): Promise<Driver> => {
+  static upsertDriver = async (driverName: string, runId: number): Promise<driver> => {
     const driver = await prisma.driver.upsert({
       where: {
         username: driverName

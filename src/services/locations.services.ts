@@ -1,4 +1,4 @@
-import { Location } from '@prisma/client';
+import { location } from '@prisma/client';
 import prisma from '../prisma/prisma-client';
 import { ResponseFunction } from '../utils/response-function';
 import RunService from './runs.services';
@@ -8,7 +8,7 @@ export default class LocationService {
    * CRUD operation to get all locations
    * @returns Array of all Locations
    */
-  static getAllLocations: ResponseFunction<Location[]> = async () => {
+  static getAllLocations: ResponseFunction<location[]> = async () => {
     const locations = await prisma.location.findMany();
     return locations;
   };
@@ -28,7 +28,7 @@ export default class LocationService {
     longitude: number,
     radius: number,
     runId: number
-  ): Promise<Location> => {
+  ): Promise<location> => {
     const location = await prisma.location.upsert({
       where: {
         name

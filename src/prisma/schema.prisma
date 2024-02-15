@@ -4,66 +4,61 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = "file:./mydatabase.db"
+    provider = "postgresql"
+    url      = env("SOURCE_DATABASE_URL")
 }
 
-model Run {
+model run {
     id           Int       @id @unique @default(autoincrement())
     locationName String?
-    location     Location? @relation(fields: [locationName], references: [name])
+    location     location? @relation(fields: [locationName], references: [name])
     driverName   String?
-    driver       Driver?   @relation(fields: [driverName], references: [username])
+    driver       driver?   @relation(fields: [driverName], references: [username])
     systemName   String?
-    system       System?   @relation(fields: [systemName], references: [name])
-    data         Data[]
-    time         BigInt
+    system       system?   @relation(fields: [systemName], references: [name])
+    data         data[]
+    time         DateTime  @db.Timestamptz()
 }
 
-model Location {
+model location {
     name      String @id @unique
     latitude  Float
     longitude Float
     radius    Float
-    runs      Run[]
+    runs      run[]
 }
 
-model Driver {
+model driver {
     username String @id @unique
-    runs     Run[]
+    runs     run[]
 }
 
-model System {
+model system {
     name String @id @unique
-    runs Run[]
+    runs run[]
 }
 
-model Data {
-    id           Int         @id @unique @default(autoincrement())
-    values       DataValue[]
+model data {
+    id           String   @default(uuid())
+    values       Float[]
     dataTypeName String
-    dataType     DataType    @relation(fields: [dataTypeName], references: [name])
-    time         BigInt
+    dataType     dataType @relation(fields: [dataTypeName], references: [name])
+    time         DateTime @db.Timestamptz()
     runId        Int
-    run          Run         @relation(fields: [runId], references: [id])
+    run          run      @relation(fields: [runId], references: [id])
+
+    @@unique([id, time])
 }
 
-model DataType {
+model dataType {
     name     String @id @unique
     unit     String
-    data     Data[]
-    node     Node   @relation(fields: [nodeName], references: [name])
+    data     data[]
+    node     node   @relation(fields: [nodeName], references: [name])
     nodeName String
 }
 
-model Node {
+model node {
     name      String     @id @unique
-    dataTypes DataType[]
-}
-
-model DataValue {
-    id     String @id @unique @default(uuid())
-    dataId Int
-    data   Data   @relation(fields: [dataId], references: [id])
-    value  Float
+    dataTypes dataType[]
 }

@@ -1,4 +1,4 @@
-import { Node } from '@prisma/client';
+import { node } from '@prisma/client';
 import prisma from '../prisma/prisma-client';
 import { ResponseFunction } from '../utils/response-function';
 
@@ -7,7 +7,7 @@ export default class NodeService {
    * CRUD operation to get all systems with ResponseFunction type
    * @returns Promise<string> contianing all the nodes in the db
    */
-  static getAllNodes: ResponseFunction<Node[]> = async () => {
+  static getAllNodes: ResponseFunction<node[]> = async () => {
     const data = await prisma.node.findMany({
       include: {
         dataTypes: true
@@ -22,7 +22,7 @@ export default class NodeService {
    * @param nodeName name of the system as string
    * @returns the created node
    */
-  static upsertNode = async (nodeName: string): Promise<Node> => {
+  static upsertNode = async (nodeName: string): Promise<node> => {
     return await prisma.node.upsert({
       where: {
         name: nodeName
