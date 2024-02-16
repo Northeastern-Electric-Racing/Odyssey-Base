@@ -42,10 +42,10 @@ describe('CRUD Run', () => {
 
     const result = await RunService.getRunById(createdRun.id);
 
-    expect(result).toEqual({
+    expect({ ...result, time: new Date(1)}).toEqual({
       id: createdRun.id,
       locationName: null,
-      time: '1',
+      time: new Date(1),
       driverName: null,
       systemName: null
     });
