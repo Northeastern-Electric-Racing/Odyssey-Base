@@ -49,7 +49,7 @@ describe('Data', () => {
   test('Get All Data by DataType Name works w valid data', async () => {
     await NodeService.upsertNode('test');
     await DataTypeService.upsertDataType('test', 'joe mama', 'test');
-    const result = await DataService.getDataByDataTypeName('test');
+    const result = await DataService.getDataByDataTypeNameAndRunId('test', 1);
 
     // Use toEqual to compare parsedResult with the expected array
     expect(result).toEqual(result);
@@ -71,7 +71,7 @@ describe('Data', () => {
       dataTypeName: 'test',
       time: result.time,
       runId: run.id,
-      values: [0],
+      values: [0]
     };
 
     expect(result).toEqual(expected);
@@ -80,12 +80,14 @@ describe('Data', () => {
   //TODO Fix these tests, for some reason theyre not throwing when they absolutely should be
   test('Get All Data by DataType Name throws w invalid data', async () => {
     //throws w no data
-    await expect(() => DataService.getDataByDataTypeName('test')).rejects.toThrowError('dataType with id test not found');
+    await expect(() => DataService.getDataByDataTypeNameAndRunId('test', 1)).rejects.toThrowError(
+      'dataType with id test not found'
+    );
   });
 
   test('addData throws error when no dataTypeName', async () => {
     const serverData = new serverdata.v1.ServerData({
-      values: ["0"],
+      values: ['0'],
       unit: Unit.AMPERAGE
     });
 
