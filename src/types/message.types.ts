@@ -4,7 +4,7 @@ import { Topic } from './topic';
  * The format of the data sent from the server
  */
 export type ClientData = {
-  value: string | number;
+  values: string[];
   unit: string;
 };
 

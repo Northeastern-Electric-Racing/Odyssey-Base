@@ -12,7 +12,7 @@ export default class DataService {
    * @param dataTypeName name of the dataType to get data for
    * @returns string contianing list of all data with dataype name
    */
-  static getDataByDataTypeName = async (dataTypeName: string) => {
+  static getDataByDataTypeNameAndRunId = async (dataTypeName: string, runId: number) => {
     const dataType = await prisma.dataType.findUnique({
       where: {
         name: dataTypeName
@@ -25,12 +25,13 @@ export default class DataService {
 
     const queriedData = await prisma.data.findMany({
       where: {
-        dataTypeName
+        dataTypeName,
+        runId
       }
     });
 
     return queriedData.map((data) => {
-      return { ...data, time: data.time.toString() };
+      return { ...data, time: data.time.toString(), values: data.values.map((value) => value.toString()) };
     });
   };
 
