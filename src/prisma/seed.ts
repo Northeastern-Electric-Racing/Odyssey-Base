@@ -1,3 +1,4 @@
+import { DataTypeName } from '../../../utils/data-type-name.utils';
 import { serverdata } from '../generated/serverdata/v1/serverdata';
 import DataService from '../services/data.services';
 import DataTypeService from '../services/dataTypes.services';
@@ -8,6 +9,39 @@ import RunService from '../services/runs.services';
 import SystemService from '../services/systems.services';
 import { Unit } from '../types/unit';
 import prisma from './prisma-client';
+
+// Function to simulate adding points along a route from New York City to Los Angeles
+async function simulateRoute(createdRunId: number) {
+  // Define coordinates for New York City and Los Angeles
+  const nycCoordinates = { lat: 40.7128, lng: -74.006 };
+  const laCoordinates = { lat: 34.0522, lng: -118.2437 };
+
+  // Calculate intermediate coordinates along the route (you can adjust steps based on your requirement)
+  const numberOfSteps = 10; // Number of intermediate points
+  const stepLat = (laCoordinates.lat - nycCoordinates.lat) / numberOfSteps;
+  const stepLng = (laCoordinates.lng - nycCoordinates.lng) / numberOfSteps;
+
+  // Simulate adding points along the route
+  for (let i = 0; i <= numberOfSteps; i++) {
+    let intermediateLat = nycCoordinates.lat + stepLat * i;
+    const intermediateLng = nycCoordinates.lng + stepLng * i;
+
+    // Ensure latitude stays within the range of -90 to 90
+    intermediateLat = Math.min(Math.max(intermediateLat, -90), 90);
+
+    // Construct a ServerData object with the intermediate coordinates
+    const serverData = new serverdata.v1.ServerData({
+      values: [intermediateLng.toString(), intermediateLat.toString()],
+      unit: 'Coord'
+    });
+
+    // Add the ServerData object to DataService with the current timestamp
+    await DataService.addData(serverData, Date.now(), DataTypeName.points, createdRunId);
+
+    // Optional: Add a delay to simulate realistic data acquisition
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
+  }
+}
 
 const performSeed = async () => {
   await prisma.data.deleteMany({});
@@ -29,14 +63,14 @@ const performSeed = async () => {
   await NodeService.upsertNode('BMS');
   await NodeService.upsertNode('MPU');
 
-  await DataTypeService.upsertDataType('Pack Temp', 'C', 'BMS');
+  await DataTypeService.upsertDataType(DataTypeName.packTemp, 'C', 'BMS');
   await DataService.addData(
     new serverdata.v1.ServerData({
       values: ['20'],
       unit: Unit.CELSIUS
     }),
     Date.now(),
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -45,7 +79,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 1000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -54,7 +88,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 2000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -63,7 +97,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 3000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -72,7 +106,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 4000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -81,7 +115,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 5000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -90,7 +124,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 6000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -99,7 +133,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 7000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -108,7 +142,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 8000,
-    'Pack Temp',
+    DataTypeName.packTemp,
     createdRun.id
   );
 
@@ -119,6 +153,11 @@ const performSeed = async () => {
   await DataTypeService.upsertDataType('Accel X', 'Dec', 'MPU');
   await DataTypeService.upsertDataType('Accel Y', 'Dec', 'MPU');
   await DataTypeService.upsertDataType('Accel Z', 'Dec', 'MPU');
+
+  await NodeService.upsertNode('TPU');
+  await DataTypeService.upsertDataType('Points', 'Coord', 'TPU');
+  // Add Data Points that go around america
+  await simulateRoute(createdRun.id);
 };
 
 performSeed()
