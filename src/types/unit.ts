@@ -14,5 +14,6 @@ export enum Unit {
   SECONDS = 's',
   G = 'g',
   FAHRENHEIT = 'F',
-  METERS_PER_SECOND = 'm/s'
+  METERS_PER_SECOND = 'm/s',
+  COORD = 'coord'
 }
