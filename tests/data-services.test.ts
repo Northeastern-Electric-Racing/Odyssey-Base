@@ -34,6 +34,13 @@ describe('Data', () => {
         }
       });
     } catch (error) {}
+    try {
+      await prisma.run.deleteMany({
+        where: {
+          id: 0
+        }
+      });
+    } catch (error) {}
   });
 
   afterAll(async () => {
@@ -47,12 +54,10 @@ describe('Data', () => {
   });
 
   test('Get All Data by DataType Name works w valid data', async () => {
-    if ((await RunService.getRunById(1)) === null) {
-      await RunService.createRun(1, 1);
-    }
+    await RunService.createRun(0, 0);
     await NodeService.upsertNode('test');
     await DataTypeService.upsertDataType('test', 'joe mama', 'test');
-    const result = await DataService.getDataByDataTypeNameAndRunId('test', 1);
+    const result = await DataService.getDataByDataTypeNameAndRunId('test', 0);
 
     // Use toEqual to compare parsedResult with the expected array
     expect(result).toEqual(result);

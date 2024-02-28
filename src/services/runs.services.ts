@@ -41,7 +41,7 @@ export default class RunService {
    * @returns Promise<Run>
    */
   static createRun = async (timestamp: number, id?: number) => {
-    if (id) {
+    if (id !== undefined) {
       const run = await prisma.run.create({
         data: {
           id,
