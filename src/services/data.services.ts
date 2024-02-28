@@ -23,6 +23,16 @@ export default class DataService {
       throw new NotFoundError('dataType', dataTypeName);
     }
 
+    const run = await prisma.run.findUnique({
+      where: {
+        id: runId
+      }
+    });
+
+    if (!run) {
+      throw new NotFoundError('run', runId);
+    }
+
     const queriedData = await prisma.data.findMany({
       where: {
         dataTypeName,
@@ -30,8 +40,10 @@ export default class DataService {
       }
     });
 
+    queriedData.sort((a, b) => a.time.getTime() - b.time.getTime());
+
     return queriedData.map((data) => {
-      return { ...data, time: data.time.toString(), values: data.values.map((value) => value.toString()) };
+      return { ...data, time: data.time.getTime(), values: data.values.map((value) => value.toString()) };
     });
   };
 
