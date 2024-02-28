@@ -2,6 +2,7 @@ import { serverdata } from '../generated/serverdata/v1/serverdata';
 import prisma from '../prisma/prisma-client';
 import { NotFoundError } from '../utils/errors.utils';
 import { data } from '@prisma/client';
+import RunService from './runs.services';
 
 /**
  * Service class for handling data
@@ -23,20 +24,12 @@ export default class DataService {
       throw new NotFoundError('dataType', dataTypeName);
     }
 
-    const run = await prisma.run.findUnique({
-      where: {
-        id: runId
-      }
-    });
-
-    if (!run) {
-      throw new NotFoundError('run', runId);
-    }
+    const run = await RunService.getRunById(runId);
 
     const queriedData = await prisma.data.findMany({
       where: {
-        dataTypeName,
-        runId
+        dataTypeName: dataType.name,
+        runId: run.id
       }
     });
 

@@ -48,7 +48,7 @@ describe('Data', () => {
 
   test('Get All Data by DataType Name works w valid data', async () => {
     if ((await RunService.getRunById(1)) === null) {
-      await RunService.createRun(1);
+      await RunService.createRun(1, 1);
     }
     await NodeService.upsertNode('test');
     await DataTypeService.upsertDataType('test', 'joe mama', 'test');
