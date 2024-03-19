@@ -99,3 +99,11 @@ ALTER TABLE "data" ADD CONSTRAINT "data_runId_fkey" FOREIGN KEY ("runId") REFERE
 
 -- AddForeignKey
 ALTER TABLE "dataType" ADD CONSTRAINT "dataType_nodeName_fkey" FOREIGN KEY ("nodeName") REFERENCES "node"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE "data" SET (timescaledb.compress,
+   timescaledb.compress_orderby = 'time DESC',
+   timescaledb.compress_segmentby = '"runId", "dataTypeName"',
+   timescaledb.compress_chunk_time_interval='24 hours'
+);
+
+SELECT add_compression_policy('data', compress_after => INTERVAL '1d');

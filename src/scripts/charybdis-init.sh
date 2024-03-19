@@ -1,40 +1,18 @@
 #!/bin/bash
-# Make Sure Your Local Database is setup
+# This file is used to run the prisma migrations into the production database
 
 source ../../../../.env
 
-# Dump the database to a file
+echo "SOURCE_DATABASE_URL=\"$CLOUD_DATABASE_URL\"" >> ../../../../.env
 
-pg_dump -d "$SOURCE_DATABASE_URL" \                         
-  --format=plain \                                 
-  --quote-all-identifiers \
-  --no-tablespaces \                              
-  --no-owner \
-  --no-privileges \
-  --file=dump.sql
+npx prisma migrate deploy --preview-feature
 
-# If Dumping fails exit
-if [ $fetch_status -ne 0 ]; then
-    echo "Error: Failed to dump the database."
-    exit $fetch_status
+if [ $? -ne 0 ]; then
+  echo "Error: Failed to deploy migrations."
+  exit 1
 fi
 
-echo "Database dumped successfully."
+# Remove the SOURCE_DATABASE_URL from the .env file
+sed -i '/SOURCE_DATABASE_URL/d' ../../../../.env
 
-# Transfer the file to the remote server
-
-psql $TARGET -v ON_ERROR_STOP=1 --echo-errors \
-    -c "SELECT public.timescaledb_pre_restore();" \
-    -f dump.sql \
-    -c "SELECT public.timescaledb_post_restore();"
-
-# If transfer fails exit
-if [ $insert_status -ne 0 ]; then
-    echo "Error: Failed to transfer the database."
-    exit $insert_status
-fi
-
-# Delete the file from the local machine
-rm dump.sql
-
-echo "Database transfer completed successfully."
+echo "Migrations Deployed Successfully"
