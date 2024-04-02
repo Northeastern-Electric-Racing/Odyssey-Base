@@ -23,12 +23,14 @@ export default class NodeService {
    * @returns the created node
    */
   static upsertNode = async (nodeName: string): Promise<node> => {
-    return await prisma.node.upsert({
-      where: {
-        name: nodeName
-      },
-      update: {},
-      create: {
+    const node = await prisma.node.findUnique({ where: { name: nodeName } });
+
+    if (node) {
+      return node;
+    }
+
+    return await prisma.node.create({
+      data: {
         name: nodeName
       }
     });

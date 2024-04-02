@@ -20,22 +20,30 @@ export default class DataTypeService {
    * @param dataTypeName name of the dataType
    */
   static upsertDataType = async (dataTypeName: string, unit: string, nodeName: string): Promise<dataType> => {
-    if (!(await prisma.node.findUnique({ where: { name: nodeName } }))) {
+    if (
+      !(await prisma.node.findUnique({
+        where: { name: nodeName }
+      }))
+    ) {
       throw new Error(`Node with the name "${nodeName}" does not exist`);
     }
 
-    const createdDataType = prisma.dataType.upsert({
-      where: { name: dataTypeName },
-      update: {
-        unit,
-        node: { connect: { name: nodeName } }
-      },
-      create: {
+    const dataType = await prisma.dataType.findUnique({
+      where: { name: dataTypeName }
+    });
+
+    if (dataType) {
+      return dataType;
+    }
+
+    const createdDataType = await prisma.dataType.create({
+      data: {
         name: dataTypeName,
         unit,
         node: { connect: { name: nodeName } }
       }
     });
+
     return createdDataType;
   };
 }
