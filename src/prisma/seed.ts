@@ -1,4 +1,4 @@
-import { DataTypeName } from '../../../utils/data-type-name.utils';
+import { DataType } from '../../../utils/data.utils';
 import { serverdata } from '../generated/serverdata/v1/serverdata';
 import DataService from '../services/data.services';
 import DataTypeService from '../services/dataTypes.services';
@@ -36,7 +36,7 @@ async function simulateRoute(createdRunId: number) {
     });
 
     // Add the ServerData object to DataService with the current timestamp
-    await DataService.addData(serverData, Date.now(), DataTypeName.points, createdRunId);
+    await DataService.addData(serverData, Date.now(), DataType.Points, createdRunId);
 
     // Optional: Add a delay to simulate realistic data acquisition
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
@@ -63,14 +63,14 @@ const performSeed = async () => {
   await NodeService.upsertNode('BMS');
   await NodeService.upsertNode('MPU');
 
-  await DataTypeService.upsertDataType(DataTypeName.packTemp, 'C', 'BMS');
+  await DataTypeService.upsertDataType(DataType.PackTemp, 'C', 'BMS');
   await DataService.addData(
     new serverdata.v1.ServerData({
       values: ['20'],
       unit: Unit.CELSIUS
     }),
     Date.now(),
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -79,7 +79,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 1000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -88,7 +88,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 2000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -97,7 +97,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 3000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -106,7 +106,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 4000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -115,7 +115,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 5000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -124,7 +124,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 6000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -133,7 +133,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 7000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
   await DataService.addData(
@@ -142,7 +142,7 @@ const performSeed = async () => {
       unit: Unit.CELSIUS
     }),
     Date.now() + 8000,
-    DataTypeName.packTemp,
+    DataType.PackTemp,
     createdRun.id
   );
 
