@@ -15,5 +15,6 @@ export enum Unit {
   G = 'g',
   FAHRENHEIT = 'F',
   METERS_PER_SECOND = 'm/s',
-  COORD = 'coord'
+  COORD = 'coord',
+  STRING = ''
 }
