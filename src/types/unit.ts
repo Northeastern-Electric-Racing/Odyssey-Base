@@ -16,5 +16,9 @@ export enum Unit {
   FAHRENHEIT = 'F',
   METERS_PER_SECOND = 'm/s',
   COORD = 'coord',
-  STRING = ''
+  STRING = '',
+  VOLTS = 'V',
+  DBM = 'dBm',
+  METERS_PER_SECOND_SQUARED = 'm/s^2',
+  PSI = 'psi'
 }
